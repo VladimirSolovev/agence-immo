@@ -17,7 +17,7 @@ class DefaultController extends AbstractController
     public function index(PropertyRepository $repository):Response
     {
         $properties = $repository->findLatest();
-        dump($properties);
+
         return $this->render('default\index.html.twig', [
             'properties' => $properties
         ]);

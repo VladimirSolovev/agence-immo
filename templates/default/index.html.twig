@@ -11,7 +11,7 @@
         <div class="row flex">
             {% for property in properties %}
                 <div class="col-3">
-                    <dic class="card">
+                    <div class="card">
                         <div class="card-body">
                             <p class="card-title">
                                 <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}">{{ property.title }}</a>
@@ -20,7 +20,7 @@
                             <p class="card-text">{{ property.city }} {{ property.zipCode }}</p>
                             <p class="text-primary">{{ property.formattedPrice }} €</p>
                         </div>
-                    </dic>
+                    </div>
                 </div>
             {% endfor %}
         </div>

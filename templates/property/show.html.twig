@@ -2,8 +2,66 @@
 
 {% block title %} {{ property.title }}{% endblock %}
 {% block body %}
-    <div class="container text-center">
-        <h1>{{ property.title }}</h1>
-        <p>fkdjkdfjkdfjk</p>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <h1>{{ property.title }}</h1>
+                <p>{{ property.rooms }} rooms - {{ property.surface }} m²</p>
+                <div class="text-primary" style="font-weight: bold;font-size: 4rem;">{{ property.formattedPrice }} €</div>
+                <button id="contactBtn" class="btn btn-primary">Contacter l'agence</button>
+
+                <div class="mt-4">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+        <p>
+            {{ property.description|nl2br }}
+        </p>
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Characteristics: </h2>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Living surface</td>
+                        <td>{{ property.surface }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Rooms</td>
+                        <td>{{ property.rooms }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Bedrooms</td>
+                        <td>{{ property.bedrooms }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Floor</td>
+                        <td>{{ property.floor }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Heating type</td>
+                        <td>{{ property.heatType }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h3>Specifications: </h3>
+            </div>
+        </div>
     </div>
 {% endblock %}

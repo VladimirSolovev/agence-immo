@@ -34,7 +34,6 @@ class PropertyController extends AbstractController
     public function showProperties(): Response
     {
         $properties = $this->repository->findAllAvailible();
-        dump($properties);
 
         return $this->render('property\index.html.twig', [
             'current_menu' => 'properties',
@@ -57,8 +56,9 @@ class PropertyController extends AbstractController
             ], 301);
         }
 
-        return $this->render('property\index.html.twig', [
-            'current_menu' => 'properties'
+        return $this->render('property\show.html.twig', [
+            'current_menu' => 'properties',
+            'property' => $property
             ]);
 
     }

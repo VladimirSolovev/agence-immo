@@ -2,8 +2,25 @@
 
 {% block title %} tous les biens{% endblock %}
 {% block body %}
-    <div class="container text-center">
-        <h1>Tous les biens</h1>
-        <p>fkdjkdfjkdfjk</p>
+    <div class="container">
+        <h1 class="text-center">Tous les biens</h1>
+        <p class="text-center">fkdjkdfjkdfjk</p>
+
+        <div class="row flex">
+            {% for property in properties %}
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-title">
+                                <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}">{{ property.title }}</a>
+                            </p>
+                            <p class="card-text">{{ property.description }}</p>
+                            <p class="card-text">{{ property.city }} {{ property.zipCode }}</p>
+                            <p class="text-primary">{{ property.formattedPrice }} €</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
