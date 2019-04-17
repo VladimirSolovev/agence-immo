@@ -6,21 +6,14 @@
         <h1 class="text-center">Tous les biens</h1>
         <p class="text-center">fkdjkdfjkdfjk</p>
 
-        <div class="row flex">
+        <div class="row flex mt-4">
             {% for property in properties %}
-                <div class="col-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-title">
-                                <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}">{{ property.title }}</a>
-                            </p>
-                            <p class="card-text">{{ property.description }}</p>
-                            <p class="card-text">{{ property.city }} {{ property.zipCode }}</p>
-                            <p class="text-primary">{{ property.formattedPrice }} €</p>
-                        </div>
-                    </div>
-                </div>
+                {% include 'property/_property.html.twig' %}
             {% endfor %}
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(properties) }}
         </div>
     </div>
 {% endblock %}
