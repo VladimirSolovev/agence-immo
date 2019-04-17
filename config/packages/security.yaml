@@ -1,6 +1,7 @@
 security:
     encoders:
-        App\Entity\User: plaintext
+        App\Entity\User:
+            algorithm: argon2i
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
