@@ -4,8 +4,8 @@
             <h5 class="card-title">
                 <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}">{{ property.title }}</a>
             </h5>
-            <p class="card-text">{{ property.description }}</p>
-            <p class="card-text">{{ property.city }} {{ property.zipCode }}</p>
+            <p class="card-text">{{ property.description | truncate(20, true) }}</p>
+            <p class="card-text">{{ property.surface }} m² -  {{ property.city }} {{ property.zipCode }}</p>
             <p class="text-primary">{{ property.formattedPrice }} €</p>
         </div>
     </div>

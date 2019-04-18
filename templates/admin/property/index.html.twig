@@ -21,7 +21,7 @@
             <tbody>
             {% for property in properties %}
                 <tr>
-                    <td>{{ property.title|truncate(50, true) }}</td>
+                    <td>{{ property.title | truncate(50, true) }}</td>
                     <td>
                         <a href="{{ path('admin.property.edit', {id: property.id}) }}" class="btn btn-secondary">Editer</a>
                         <form method="post" action="{{ path("admin.property.delete", {id: property.id}) }}" style="display: inline-block;"
