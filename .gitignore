@@ -22,3 +22,4 @@
 /public/media/cache/
 ###< liip/imagine-bundle ###
 /public/images/properties/
+/node_modules/

@@ -9,35 +9,35 @@ class Contact
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * Assert\Length(min=2, max=100)
+     * @Assert\Length(min=2, max=100)
      */
     private $firstName;
 
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * Assert\Length(min=2, max=100)
+     * @Assert\Length(min=2, max=100)
      */
     private $lastName;
 
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * Assert\Regex(pattern="/[0-9]{10}")
+     * @Assert\Regex(pattern="/[0-9]{10}/")
      */
     private $phone;
 
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * Assert\Email()
+     * @Assert\Email()
      */
     private $email;
 
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * Assert\Length(min=10)
+     * @Assert\Length(min=10)
      */
     private $message;
 

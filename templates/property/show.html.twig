@@ -3,6 +3,21 @@
 {% block title %} {{ property.title }}{% endblock %}
 {% block body %}
     <div class="container mt-4">
+        <div class="mt-4">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {% if not form.vars.valid %}
+                <div class="alert alert-danger">
+                    Erreur !
+                </div>
+            {% endif %}
+        </div>
         <div class="row">
             <div class="col-md-8">
                 {% if property.fileName %}
@@ -32,16 +47,6 @@
                     </div>
                     {{ form_end(form) }}
                 </div>
-                <div class="mt-4">
-                    {% for label, messages in app.flashes %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ label }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-
             </div>
         </div>
 
