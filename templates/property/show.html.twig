@@ -16,7 +16,22 @@
                 <p>{{ property.rooms }} rooms - {{ property.surface }} m²</p>
                 <div class="text-primary" style="font-weight: bold;font-size: 4rem;">{{ property.formattedPrice }} €</div>
                 <button id="contactBtn" class="btn btn-primary">Contacter l'agence</button>
-
+                <div id="contactForm" class="mt-4">
+                    {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col">{{ form_row(form.firstName) }}</div>
+                            <div class="col">{{ form_row(form.lastName) }}</div>
+                        </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.phone) }}</div>
+                        <div class="col">{{ form_row(form.email) }}</div>
+                    </div>
+                    {{ form_rest(form) }}
+                    <div class="form-group">
+                        <button class="btn btn-primary">Envoyer</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
                 <div class="mt-4">
                     {% for label, messages in app.flashes %}
                         {% for message in messages %}
