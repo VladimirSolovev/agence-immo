@@ -33,9 +33,9 @@
     </nav>
 
         {% block body %}{% endblock %}
+        {{ encore_entry_script_tags('app') }}
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/popper.min.js"></script>
-        {{ encore_entry_script_tags('app') }}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

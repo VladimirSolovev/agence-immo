@@ -12,6 +12,11 @@ require('../css/app.css');
 const $ = require('jquery');
 
 require('select2');
+$('#contactBtn').click(e => {
+    e.preventDefault();
+    $('#contactForm').slideDown();
+    $('#contactBtn').slideUp();
+});
 
 $('select').select2();
 
