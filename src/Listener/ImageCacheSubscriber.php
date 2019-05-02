@@ -2,7 +2,7 @@
 
 namespace App\Listener;
 
-use App\Entity\Property;
+use App\Entity\Image;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
@@ -40,7 +40,7 @@ class ImageCacheSubscriber implements EventSubscriber
 
     public function preRemove(LifecycleEventArgs $args) {
         $entity = $args->getEntity();
-        if (!$entity instanceof Property) {
+        if (!$entity instanceof Image) {
             return;
         }
         $this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
@@ -48,7 +48,7 @@ class ImageCacheSubscriber implements EventSubscriber
 
     public function preUpdate(PreUpdateEventArgs $args) {
         $entity = $args->getEntity();
-        if (!$entity instanceof Property) {
+        if (!$entity instanceof Image) {
             return;
         }
         if ($entity->getImageFile() instanceof UploadedFile) {

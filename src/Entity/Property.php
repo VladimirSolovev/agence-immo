@@ -16,7 +16,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @UniqueEntity("title")
- * @Vich\Uploadable
  */
 class Property
 {
@@ -31,24 +30,6 @@ class Property
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @var File|null
-     * @Assert\Image(
-     *     maxSize="2000k",
-     *     maxSizeMessage="Le fichier excède 2000Ko.",
-     *     mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"},
-     *     mimeTypesMessage= "formats autorisés: png, jpeg, jpg, gif"
-     *   )
-     * @Vich\UploadableField(mapping="property_image", fileNameProperty="fileName")
-     */
-    private $imageFile;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255)
-     */
-    private $fileName;
 
     /**
      * @Assert\Length(min=5, max=255)
@@ -128,10 +109,28 @@ class Property
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="property", orphanRemoval=true, cascade={"persist"})
+     */
+    private $images;
+
+    /**
+     * @Assert\All({
+     * @Assert\Image(
+     *     maxSize="2000k",
+     *     maxSizeMessage="Le fichier excède 2000Ko.",
+     *     mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"},
+     *     mimeTypesMessage= "formats autorisés: png, jpeg, jpg, gif"
+     *   )
+     * })
+     */
+    private $imageFiles;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->options = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -339,41 +338,82 @@ class Property
     }
 
     /**
-     * @return File|null
+     * @return Collection|Image[]
      */
-    public function getImageFile(): ?File
+    public function getImages(): Collection
     {
-        return $this->imageFile;
+        return $this->images;
     }
 
-    /**
-     * @param File|null $imageFile
-     * @return Property
-     */
-    public function setImageFile(?File $imageFile): Property
+    public function getImage(): ?Image
     {
-        $this->imageFile = $imageFile;
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updated_at = new \DateTime('now');
+        if ($this->images->isEmpty()) {
+            return null;
         }
+        return $this->images->first();
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getProperty() === $this) {
+                $image->setProperty(null);
+            }
+        }
+
         return $this;
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getFileName(): ?string
+    public function getUpdatedAt()
     {
-        return $this->fileName;
+        return $this->updated_at;
     }
 
     /**
-     * @param string|null $fileName
+     * @param mixed $updated_at
      * @return Property
      */
-    public function setFileName(?string $fileName): Property
+    public function setUpdatedAt($updated_at)
     {
-        $this->fileName = $fileName;
+        $this->updated_at = $updated_at;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFiles()
+    {
+        return $this->imageFiles;
+    }
+
+    /**
+     * @param mixed $imageFiles
+     * @return Property
+     */
+    public function setImageFiles($imageFiles): self
+    {
+        foreach ($imageFiles as $imageFile) {
+            $image = new Image();
+            $image->setImageFile($imageFile);
+            $this->addImage($image);
+        }
+        $this->imageFiles = $imageFiles;
         return $this;
     }
 
