@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-md-8">
                 {% if property.image %}
-                    <img src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ property.title }}">
+                    <img src="{{ vich_uploader_asset(property.image, 'imageFile') | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ property.title }}">
                 {% else %}
                     <img src="{{ '/images/defaults/property_default.jpeg' | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ property.title }}">
                 {% endif %}

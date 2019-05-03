@@ -6,7 +6,6 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
-        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -33,9 +32,13 @@
     </nav>
 
         {% block body %}{% endblock %}
-        {{ encore_entry_script_tags('app') }}
+        <script src="/js/jquery_3_3_1.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+        <script>
+            $('select').select2();
+        </script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

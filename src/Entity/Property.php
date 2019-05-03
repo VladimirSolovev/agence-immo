@@ -16,6 +16,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @UniqueEntity("title")
+ * @Vich\Uploadable
  */
 class Property
 {
@@ -125,6 +126,11 @@ class Property
      * })
      */
     private $imageFiles;
+
+    /**
+     * @Vich\UploadableField(mapping="property_image")
+     */
+    private $imageFile;
 
     public function __construct()
     {
