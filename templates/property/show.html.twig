@@ -20,13 +20,15 @@
         </div>
         <div class="row">
             <div class="col-md-8">
-                {% if property.images %}
-                    {% for image in property.images %}
-                        <img src="{{ vich_uploader_asset(image, 'imageFile') | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ property.title }}">
-                    {% endfor %}
-                {% else %}
-                    <img src="{{ '/images/defaults/property_default.jpeg' | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ property.title }}">
-                {% endif %}
+                <div data-slider>
+                    {% if property.images %}
+                        {% for image in property.images %}
+                            <img src="{{ vich_uploader_asset(image, 'imageFile') | imagine_filter('medium') }}" style="width: 100%; max-height: 450px;" alt="{{ property.title }}">
+                        {% endfor %}
+                    {% else %}
+                        <img src="{{ '/images/defaults/property_default.jpeg' | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ property.title }}">
+                    {% endif %}
+                </div>
             </div>
             <div class="col-md-4">
                 <h1>{{ property.title }}</h1>

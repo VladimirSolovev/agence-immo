@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
               integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
               crossorigin=""/>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -43,9 +45,16 @@
         <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
             crossorigin=""></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <script>
             // SELECT 2
             $('select').select2();
+
+            // SLICK JS CAROUSEL
+            $('[data-slider]').slick({
+                dots: true,
+                arrows: true
+            });
 
             // CONTACT FORM SLIDING EFFECT
             $('#contactBtn').click(e => {
@@ -120,8 +129,6 @@
                         let icon = L.icon({
                             iconUrl: '/images/defaults/marker-icon.png',
                         });
-                        console.log(map.dataset.lat);
-                        console.log(map.dataset.lng);
 
                         let center = [map.dataset.lat, map.dataset.lng];
                         map = L.map('map').setView(center, 13);
