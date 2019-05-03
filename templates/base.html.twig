@@ -6,6 +6,9 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+              integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+              crossorigin=""/>
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -36,8 +39,105 @@
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/popper.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/places.js/1/places.min.js"></script>
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+            crossorigin=""></script>
         <script>
+            // SELECT 2
             $('select').select2();
+
+            // CONTACT FORM SLIDING EFFECT
+            $('#contactBtn').click(e => {
+                e.preventDefault();
+                $('#contactForm').slideDown();
+                $('#contactBtn').slideUp();
+            });
+
+            // AJAX IMAGE DELETE
+            // Deleting images of a Property
+            document.querySelectorAll('[data-delete]').forEach(a => {
+                a.addEventListener('click', e => {
+                    e.preventDefault()
+                    fetch(a.getAttribute('href'), {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({'_token': a.dataset.token})
+                    }).then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                a.parentNode.parentNode.removeChild(a.parentNode)
+                            } else {
+                                alert(data.error)
+                            }
+                        })
+                        .catch(e => alert(e))
+                })
+            });
+        </script>
+        <script>
+            let inputAdress = document.querySelector('#property_address');
+            if (inputAdress !== null) {
+                let place = places({
+                    container: inputAdress
+                });
+                place.on('change', e => {
+                    if (document.querySelector('#property_city').value === 'undefined' &&
+                    e.suggestion.type === 'city')
+                    {
+                        document.querySelector('#property_city').value = e.suggestion.name;
+                    } else {
+                        document.querySelector('#property_city').value = e.suggestion.city;
+                    }
+                    document.querySelector('#property_zip_code').value = e.suggestion.postcode;
+                    document.querySelector('#property_lat').value = e.suggestion.latlng.lat;
+                    document.querySelector('#property_lng').value = e.suggestion.latlng.lng;
+                })
+            }
+        </script>
+        <script>
+            let addressSearch = document.querySelector('#search_address');
+            if (addressSearch !== null) {
+                let place = places({
+                    container: addressSearch
+                });
+                place.on('change', e => {
+                    document.querySelector('#lat').value = e.suggestion.latlng.lat;
+                    document.querySelector('#lng').value = e.suggestion.latlng.lng;
+                })
+            }
+        </script>
+        <script>
+            class Map {
+                    static init () {
+                        let map = document.querySelector('#map');
+                        if (map === null) {
+                            return
+                        }
+                        let icon = L.icon({
+                            iconUrl: '/images/defaults/marker-icon.png',
+                        });
+                        console.log(map.dataset.lat);
+                        console.log(map.dataset.lng);
+
+                        let center = [map.dataset.lat, map.dataset.lng];
+                        map = L.map('map').setView(center, 13);
+                        let token = 'pk.eyJ1Ijoic29sb3ZldiIsImEiOiJjanY4MWp1cjgwbTNvNDlsa3lsZHdpbXZzIn0.3GHDPDkeLjLyjAiMfWbQHg';
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 18,
+                            minZoom: 12,
+                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        }).addTo(map);
+
+                        L.marker(center, {icon: icon}).addTo(map);
+                    }
+                }
+
+             Map.init();
         </script>
         {% block javascripts %}{% endblock %}
     </body>

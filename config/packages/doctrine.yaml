@@ -20,6 +20,13 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            numeric_functions:
+                ASIN: DoctrineExtensions\Query\Mysql\Asin
+                POWER: DoctrineExtensions\Query\Mysql\Power
+                SIN: DoctrineExtensions\Query\Mysql\Sin
+                PI: DoctrineExtensions\Query\Mysql\Pi
+                COS: DoctrineExtensions\Query\Mysql\Cos
         mappings:
             App:
                 is_bundle: false
