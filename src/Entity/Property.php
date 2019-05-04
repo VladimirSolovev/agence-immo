@@ -15,6 +15,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("title")
  * @Vich\Uploadable
  */
@@ -137,6 +138,12 @@ class Property
      */
     private $lng;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="properties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -161,6 +168,12 @@ class Property
         return $this;
     }
 
+    /**
+     * Slug initialization method
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
     public function getSlug(): string
     {
         return (new Slugify())->slugify($this->getTitle());
@@ -448,6 +461,18 @@ class Property
     public function setLng(float $lng): self
     {
         $this->lng = $lng;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
