@@ -16,7 +16,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity("title")
+ * @UniqueEntity(
+ *     fields={"title"},
+ *     message="Une autre annonce possède déjà ce titre, merci de le modifier"
+ * )
  * @Vich\Uploadable
  */
 class Property
