@@ -33,6 +33,18 @@
             <div class="col-md-4">
                 <h1>{{ property.title }}</h1>
                 <p>{{ property.rooms }} rooms - {{ property.surface }} m²</p>
+
+                {% if property.author.avatar %}
+                    <img src="{{ vich_uploader_asset(property.author, 'imageFile') }}" alt="card-img-top" style="width: 100%; height:auto;">
+                {% else %}
+                    <img src="{{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height:auto;">
+                {% endif %}
+
+                <img src="{{ property.author.avatar }}" alt="Photo de profil de {{ property.author.firstName }} {{ property.author.lastName }}">
+                <h3>{{ property.author.firstName }} {{ property.author.lastName }}</h3>
+                <span class="badge badge-primary">{{ property.author.properties | length }} annonces</span>
+                <p>{{ property.author.description | raw }}</p>
+
                 <div class="text-primary" style="font-weight: bold;font-size: 4rem;">{{ property.formattedPrice }} €</div>
                 <button id="contactBtn" class="btn btn-primary" {% if form.vars.submitted %} style="display: none;" {% endif %}>Contacter l'agence</button>
                 <div id="contactForm" class="mt-4" {% if not form.vars.submitted %} style="display: none;" {% endif %}>

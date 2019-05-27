@@ -5,5 +5,35 @@
 {% block body %}
     <div class="container">
         <h1>Modification du profil</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">{{ form_row(form.firstName) }}</div>
+                <div class="col-md-4">{{ form_row(form.lastName) }}</div>
+                <div class="col-md-4">{{ form_row(form.email) }}</div>
+                <div class="col-md-4">{{ form_row(form.description) }}</div>
+                <div class="col-md-4">{{ form_row(form.imageFile) }}</div>
+                <div class="row flex">
+                    {% if app.user.avatar %}
+                        <div class="col" style="width: 100px; flex: none; margin: 5px;">
+                            <img src="{{ vich_uploader_asset(app.user, 'imageFile') | imagine_filter('thumb') }}" width="100" alt="">
+                            <a href="{{ path('admin.image.delete', {id: 1}) }}" class="btn btn-danger" data-delete data-token="{{ csrf_token('delete' ~ 1) }}">Supprimer</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {{ form_rest(form) }}
+
+        <button class="btn btn-primary">{{ button|default("Enregistrer") }}</button>
+
+        {{ form_end(form) }}
     </div>
 {% endblock %}

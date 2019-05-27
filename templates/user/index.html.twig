@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Profil de {{ user.firstName }} {{ user.lastName }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-3 text-center">
+                {% if user.avatar %}
+                <img src="{{ vich_uploader_asset(user, 'imageFile') | imagine_filter('medium') }}" style="width: 100%; max-height: 450px;" alt="{{ user.firstName }}">
+                {% else %}
+                    <img src="{{ '/images/defaults/property_default.jpeg' | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ user.firstName }}">
+                {% endif %}
+            </div>
+            <div class="col-9">
+                <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+            </div>
+        </div>
+
+        {{ user.description | raw }}
+        <hr>
+        <h2>Les annonces de {{ user.firstName }} {{ user.lastName }}</h2>
+
+        {% if user.properties | length > 0 %}
+            <div class="row">
+                {% for property in user.properties %}
+                    {% include 'property/_property.html.twig' %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <p>
+                    <strong>{{ user.firstName }} {{ user.lastName }} n'a pas encore d'annonces sur le site</strong>
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
