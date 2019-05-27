@@ -35,13 +35,19 @@
                 <p>{{ property.rooms }} rooms - {{ property.surface }} m²</p>
 
                 {% if property.author.avatar %}
-                    <img src="{{ vich_uploader_asset(property.author, 'imageFile') }}" alt="card-img-top" style="width: 100%; height:auto;">
+                    <a href="{{ path('user.show', {'id': property.author.id}) }}">
+                        <img src="{{ vich_uploader_asset(property.author, 'imageFile') }}" alt="card-img-top" class="avatar">
+                    </a>
                 {% else %}
-                    <img src="{{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height:auto;">
+                    <a href="{{ path('user.show', {'id': property.author.id}) }}">
+                        <img src="{{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top" class="avatar">
+                    </a>
                 {% endif %}
 
-                <img src="{{ property.author.avatar }}" alt="Photo de profil de {{ property.author.firstName }} {{ property.author.lastName }}">
-                <h3>{{ property.author.firstName }} {{ property.author.lastName }}</h3>
+                <a href="{{ path('user.show', {'id': property.author.id}) }}">
+                    <h3>{{ property.author.firstName }} {{ property.author.lastName }}</h3>
+                </a>
+
                 <span class="badge badge-primary">{{ property.author.properties | length }} annonces</span>
                 <p>{{ property.author.description | raw }}</p>
 
@@ -49,10 +55,10 @@
                 <button id="contactBtn" class="btn btn-primary" {% if form.vars.submitted %} style="display: none;" {% endif %}>Contacter l'agence</button>
                 <div id="contactForm" class="mt-4" {% if not form.vars.submitted %} style="display: none;" {% endif %}>
                     {{ form_start(form) }}
-                        <div class="row">
-                            <div class="col">{{ form_row(form.firstName) }}</div>
-                            <div class="col">{{ form_row(form.lastName) }}</div>
-                        </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.firstName) }}</div>
+                        <div class="col">{{ form_row(form.lastName) }}</div>
+                    </div>
                     <div class="row">
                         <div class="col">{{ form_row(form.phone) }}</div>
                         <div class="col">{{ form_row(form.email) }}</div>

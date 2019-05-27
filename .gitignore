@@ -22,6 +22,7 @@
 /public/media/cache/
 ###< liip/imagine-bundle ###
 /public/images/properties/
+/public/images/users/
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

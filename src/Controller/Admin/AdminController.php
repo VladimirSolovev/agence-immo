@@ -76,31 +76,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/property/new", name="admin.property.new")
-     * @param Request $request
-     * @return Response
-     */
-    public function new(Request $request): Response
-    {
-        $property = new Property();
-        $form = $this->createForm(PropertyType::class, $property);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $this->em->persist($property);
-            $this->em->flush();
-            $this->addFlash("success", "Bien a été créé avec succès");
-            return $this->redirectToRoute('admin.property.index');
-        }
-
-        return $this->render('admin\property\new.html.twig', [
-            'property' => $property,
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
      * @Route("/admin/property/{id}", name="admin.property.delete", methods="DELETE")
      * @param Property $property
      * @param Request $request

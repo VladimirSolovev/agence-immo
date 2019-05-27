@@ -7,6 +7,7 @@ use App\Entity\Property;
 use App\Entity\PropertySearch;
 use App\Form\ContactType;
 use App\Form\PropertySearchType;
+use App\Form\PropertyType;
 use App\Notification\ContactNotification;
 use App\Repository\PropertyRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -94,5 +95,32 @@ class PropertyController extends AbstractController
             'form' => $form->createView()
             ]);
 
+    }
+
+    /**
+     * @Route("property/new", name="property.new")
+     * @param Request $request
+     * @return Response
+     */
+    public function new(Request $request): Response
+    {
+        $property = new Property();
+        $form = $this->createForm(PropertyType::class, $property);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $property->setAuthor($this->getUser());
+
+            $this->em->persist($property);
+            $this->em->flush();
+            $this->addFlash("success", "Bien a été créé avec succès");
+            return $this->redirectToRoute('property.index');
+        }
+
+        return $this->render('property\new.html.twig', [
+            'property' => $property,
+            'form' => $form->createView()
+        ]);
     }
 }

@@ -20,14 +20,6 @@
                 <div class="col-md-4">{{ form_row(form.email) }}</div>
                 <div class="col-md-4">{{ form_row(form.description) }}</div>
                 <div class="col-md-4">{{ form_row(form.imageFile) }}</div>
-                <div class="row flex">
-                    {% if app.user.avatar %}
-                        <div class="col" style="width: 100px; flex: none; margin: 5px;">
-                            <img src="{{ vich_uploader_asset(app.user, 'imageFile') | imagine_filter('thumb') }}" width="100" alt="">
-                            <a href="{{ path('admin.image.delete', {id: 1}) }}" class="btn btn-danger" data-delete data-token="{{ csrf_token('delete' ~ 1) }}">Supprimer</a>
-                        </div>
-                    {% endif %}
-                </div>
             </div>
         </div>
         {{ form_rest(form) }}
