@@ -52,6 +52,11 @@
                 <p>{{ property.author.description | raw }}</p>
 
                 <div class="text-primary" style="font-weight: bold;font-size: 4rem;">{{ property.formattedPrice }} €</div>
+
+                {% if app.user and app.user == property.author %}
+                    <a href="{{ path('property.edit', {'id': property.id}) }}" class="btn btn-secondary">Modifier l'annonce</a>
+                {% endif %}
+
                 <button id="contactBtn" class="btn btn-primary" {% if form.vars.submitted %} style="display: none;" {% endif %}>Contacter l'agence</button>
                 <div id="contactForm" class="mt-4" {% if not form.vars.submitted %} style="display: none;" {% endif %}>
                     {{ form_start(form) }}

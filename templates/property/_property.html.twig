@@ -12,6 +12,11 @@
             <p class="card-text">{{ property.description | truncate(20, true) }}</p>
             <p class="card-text">{{ property.surface }} m² -  {{ property.city }} {{ property.zipCode }}</p>
             <p class="text-primary">{{ property.formattedPrice }} €</p>
+
+            {% if app.user and app.user == property.author %}
+                <a href="{{ path('property.edit', {'id': property.id}) }}" class="btn btn-secondary">Modifier l'annonce</a>
+            {% endif %}
+
         </div>
     </div>
 </div>

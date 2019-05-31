@@ -69,7 +69,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var File|null
      * @Assert\Image(
-     *     maxSize="2000k",
+     *     maxSize="2M",
      *     maxSizeMessage="Le fichier excède 2000Ko.",
      *     mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"},
      *     mimeTypesMessage= "formats autorisés: png, jpeg, jpg, gif"
@@ -89,13 +89,19 @@ class User implements UserInterface, \Serializable
     private $properties;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true, options={"default": "2019-05-27 00:00:00"})
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     */
+    private $userRoles;
 
     public function __construct()
     {
         $this->properties = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,7 +141,13 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return ['ROLE_ADMIN'];
+        $roles = $this->userRoles->map(function ($role) {
+            return $role->getTitle();
+        })->toArray();
+
+        $roles[] = 'ROLE_USER';
+
+        return $roles;
     }
 
     public function getSalt()
@@ -317,6 +329,34 @@ class User implements UserInterface, \Serializable
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->contains($userRole)) {
+            $this->userRoles->removeElement($userRole);
+            $userRole->removeUser($this);
+        }
 
         return $this;
     }

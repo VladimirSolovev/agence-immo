@@ -17,6 +17,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class PropertyController extends AbstractController
 {
@@ -99,6 +101,7 @@ class PropertyController extends AbstractController
 
     /**
      * @Route("property/new", name="property.new")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @return Response
      */
@@ -119,6 +122,31 @@ class PropertyController extends AbstractController
         }
 
         return $this->render('property\new.html.twig', [
+            'property' => $property,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/property/{id}/edit", name="property.edit", requirements={"id": "[0-9]*"}, methods="GET|POST")
+     * @Security("is_granted('ROLE_USER') and user === property.getAuthor()", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier")
+     * @param Property $property
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(Property $property, Request $request): Response
+    {
+        $form = $this->createForm(PropertyType::class, $property);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $this->em->flush();
+            $this->addFlash("success", "Bien a été modifié avec succès");
+            return $this->redirectToRoute('admin.property.index');
+        }
+
+        return $this->render('admin\property\edit.html.twig', [
             'property' => $property,
             'form' => $form->createView()
         ]);

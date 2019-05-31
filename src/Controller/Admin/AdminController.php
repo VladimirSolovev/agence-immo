@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends AbstractController
 {
@@ -53,6 +54,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/property/{id}", name="admin.property.edit", requirements={"id": "[0-9]*"}, methods="GET|POST")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @param Property $property
      * @param Request $request
      * @return Response
