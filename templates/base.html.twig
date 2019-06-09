@@ -46,7 +46,7 @@
                         {% if app.user.avatar %}
                             <img src="{{ vich_uploader_asset(app.user, 'imageFile') | imagine_filter('medium') }}" class="avatar-mini" alt="{{ app.user.firstName }}">
                         {% else %}
-                            <img src="{{ '/images/defaults/property_default.jpeg' | imagine_filter('medium') }}" style="width: 100%; height: auto;" alt="{{ app.user.firstName }}">
+                            <img src="{{ '/images/defaults/property_default.jpeg' | imagine_filter('medium') }}" class="avatar" alt="{{ app.user.firstName }}">
                         {% endif %}
                     </a>
 

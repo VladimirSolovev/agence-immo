@@ -57,6 +57,9 @@
                     <a href="{{ path('property.edit', {'id': property.id}) }}" class="btn btn-secondary">Modifier l'annonce</a>
                 {% endif %}
 
+                {% if property.author is not same as(app.user) %}
+                <a href="{{ path('booking.create', {'id': property.id}) }}" class="btn btn-primary">Réserver !</a>
+                {% endif %}
                 <button id="contactBtn" class="btn btn-primary" {% if form.vars.submitted %} style="display: none;" {% endif %}>Contacter l'agence</button>
                 <div id="contactForm" class="mt-4" {% if not form.vars.submitted %} style="display: none;" {% endif %}>
                     {{ form_start(form) }}
