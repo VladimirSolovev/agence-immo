@@ -2,6 +2,28 @@
 
 {% block title %}Réserver l'annonce : {{ property.title }} !{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <style>
+        .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+
+            background: #ffc6c6;
+            background-color: rgb(255, 198, 198);
+            background-position-x: 0%;
+            background-position-y: 0%;
+            background-repeat: repeat;
+            background-attachment: scroll;
+            background-image: none;
+            background-size: auto;
+            background-origin: padding-box;
+            background-clip: border-box;
+            color: red;
+            cursor: default;
+
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="container">
 
@@ -40,4 +62,21 @@
         {{ form_end(form) }}
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#booking_startDate, #booking_endDate').datepicker({
+                format: 'dd/mm/yyyy',
+                datesDisabled: [
+                    {% for day in property.notAvailableDates %}
+                    "{{ day.format('d/m/Y') }}",
+                    {% endfor %}
+                ],
+                startDate: new Date()
+            });
+        });
+    </script>
 {% endblock %}
