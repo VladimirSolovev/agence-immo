@@ -58,6 +58,40 @@ class Booking
      */
     private $comment;
 
+    public function isAvailableDates() {
+        $notAvailableDates = $this->ad->getNotAvailableDates();
+
+        $bookingDays = $this->getDays();
+
+        $days = array_map(function($day) {
+            return $day->format('Y-m-d');
+        }, $bookingDays);
+
+        $notAvailable = array_map(function($day) {
+            return $day->format('Y-m-d');
+        }, $notAvailableDates);
+
+        foreach ($days as $day) {
+            if(array_search($day, $notAvailable) !== false) return false;
+        }
+
+        return true;
+    }
+
+    public function getDays() {
+        $resultat = range(
+            $this->startDate->getTimestamp(),
+            $this->endDate->getTimestamp(),
+            24 * 60 * 60
+        );
+
+        $days = array_map(function($dayTimestamp){
+            return new \DateTime(date('Y-m-d', $dayTimestamp));
+        }, $resultat);
+
+        return $days;
+    }
+
     /**
      * @ORM\PrePersist
      */

@@ -4,6 +4,13 @@
 
 {% block body %}
     <div class="container">
+
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         <h1>Réservez pour l'annonce : {{ property.title }}</h1>
 
         <p>Vous êtes sur le point de réserver le bien de <strong>{{ property.author.firstName }}</strong>, donnez nous vos dates, on s'occupe du reste !</p>

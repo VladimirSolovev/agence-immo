@@ -30,9 +30,9 @@ class BookingType extends AbstractType
             ])
             ->add('comment', TextareaType::class, [
                 'label' => "Vous avez un commentaire ?",
+                'required' => false,
                 'attr' => [
-                    'placeholder' => "Si vous avez un commentaire...",
-                    'required' => false
+                    'placeholder' => "Si vous avez un commentaire..."
                 ]
             ])
         ;
